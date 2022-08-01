@@ -1,2 +1,7 @@
 # nodebaseblog
-原生nodejs开发,不使用任何框架开发server端
+
+原生 nodejs 开发,不使用任何框架开发 server 端
+
+```
+npm init -y
+```

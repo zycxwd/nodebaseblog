@@ -2,9 +2,11 @@
   "name": "nodebaseblog",
   "version": "1.0.0",
   "description": "原生nodejs开发,不使用任何框架开发server端",
-  "main": "index.js",
+  "main": "bin/www.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=dev nodemon .bin/www.js",
+    "prd": "cross-env NODE_ENV=production "
   },
   "repository": {
     "type": "git",
@@ -16,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/zycxwd/nodebaseblog/issues"
   },
-  "homepage": "https://github.com/zycxwd/nodebaseblog#readme"
+  "homepage": "https://github.com/zycxwd/nodebaseblog#readme",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.19"
+  }
 }
