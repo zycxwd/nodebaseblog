@@ -39,13 +39,21 @@ const serveHandel = (req, res) => {
   //处理post请求的参数  获取postdata
   getPostdata(req).then((postdata) => {
     req.body = postdata
+
     // 路由文件相继使用 博客路由
-    const blogData = blogServeHandel(req, res)
-    if (blogData) {
-      // 我们前面blog.js文件里返回的blogData就是个对象
-      // 浏览器那边只接受字符串我们要转一下
-      //设置contentType/application/json 浏览器又会以json解析
-      res.end(JSON.stringify(blogData))
+    // const blogData = blogServeHandel(req, res)
+    // if (blogData) {
+    //   // 我们前面blog.js文件里返回的blogData就是个对象
+    //   // 浏览器那边只接受字符串我们要转一下
+    //   //设置contentType/application/json 浏览器又会以json解析
+    //   res.end(JSON.stringify(blogData))
+    //   return
+    // }
+    const blogResult = blogServeHandel(req, res)
+    if (blogResult) {
+      blogResult.then((blogData) => {
+        res.end(JSON.stringify(blogData))
+      })
       return
     }
 

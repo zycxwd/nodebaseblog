@@ -1,4 +1,16 @@
-const getList = (author, password) => {
+const { exec } = require('../db/mysql')
+const getList = (author, keyword) => {
+  let sql = `select * from blogs where 1=1 `
+  if (author) {
+    sql += `and author =${author} `
+  }
+  if (keyword) {
+    sql += `and title like '%${keyword}%' `
+  }
+  sql += `order by createtime desc`
+  return exec(sql)
+}
+const getDeatil = (id) => {
   return [
     {
       id: '1',
@@ -6,13 +18,6 @@ const getList = (author, password) => {
       content: '内容a',
       cratetime: '1659428575165',
       author: 'zhangsan',
-    },
-    {
-      id: '2',
-      title: '标题2',
-      content: '内容a2',
-      cratetime: '1659428975165',
-      author: 'lisi',
     },
   ]
 }
@@ -24,7 +29,17 @@ const newBlog = (blogdata) => {
     },
   ]
 }
+const updateBlog = (id, blogdata) => {
+  return true
+}
+const delBlog = (id) => {
+  console.log(id)
+  return true
+}
 module.exports = {
   getList,
+  getDeatil,
   newBlog,
+  updateBlog,
+  delBlog,
 }
