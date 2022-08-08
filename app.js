@@ -58,9 +58,11 @@ const serveHandel = (req, res) => {
     }
 
     //登录路由
-    const userData = userServeHandel(req, res)
-    if (userData) {
-      res.end(JSON.stringify(userData))
+    const userResult = userServeHandel(req, res)
+    if (userResult) {
+      userResult.then((data) => {
+        res.end(JSON.stringify(data))
+      })
       return
     }
 
