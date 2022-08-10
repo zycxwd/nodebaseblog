@@ -7,6 +7,14 @@ const {
 } = require('../controler/ctblog')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 
+const checklogin = (req) => {
+  if (!req.session.username) {
+    // 未登录提示
+    return Promise.resolve(new ErrorModel('请登录'))
+  }
+  // 登录就返回 undifind 即可
+}
+
 const blogServeHandel = (req, res) => {
   // 我们这里不res.end操作app.js统一处理返回,因为每个路由都需要end
   //接口路由文件 只 return { mag: 'xxx',} object格式数据
@@ -33,7 +41,11 @@ const blogServeHandel = (req, res) => {
 
   //新建
   if (req.method === 'POST' && req.path === '/api/blog/new') {
-    req.body.author = 'zhangsan' //没有登录 没有author
+    const checkloginResult = checklogin(req)
+    if (checkloginResult) {
+      return checklogin
+    }
+    req.body.author = req.session.username //没有登录 没有author
     const result = newBlog(req.body)
     return result.then((data) => {
       return new SuccessModel(data)
@@ -42,6 +54,10 @@ const blogServeHandel = (req, res) => {
 
   //更新
   if (req.method === 'POST' && req.path === '/api/blog/update') {
+    const checkloginResult = checklogin(req)
+    if (checkloginResult) {
+      return checklogin
+    }
     const blogdata = req.body
     const result = updateBlog(id, blogdata)
     return result.then((val) => {
@@ -55,7 +71,12 @@ const blogServeHandel = (req, res) => {
 
   // 删除
   if (req.method === 'POST' && req.path === '/api/blog/del') {
-    req.body.author = 'zhangsan' //没有登录 没有author
+    const checkloginResult = checklogin(req)
+    if (checkloginResult) {
+      return checklogin
+    }
+    // 获取登录后的username
+    req.body.author = req.session.username
     console.log(req.body.author)
     const result = delBlog(id, req.body.author)
     return result.then((val) => {
